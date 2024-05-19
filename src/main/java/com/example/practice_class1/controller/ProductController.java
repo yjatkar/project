@@ -1,11 +1,10 @@
 package com.example.practice_class1.controller;
 
+import com.example.practice_class1.Dtos.ProductRequestDto;
 import com.example.practice_class1.Dtos.ProductResponseDto;
 import com.example.practice_class1.Model.Product;
 import com.example.practice_class1.services.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
@@ -21,8 +20,17 @@ public class ProductController {
          return productService.getSingleProduct(productId);
     }
 
-
-
+    @PostMapping("/products")
+    public ProductResponseDto createProduct(@RequestBody ProductRequestDto productRequestDto)
+    {
+        return productService.addProduct(
+                productRequestDto.getTitle(),
+                productRequestDto.getDescription(),
+                productRequestDto.getImage(),
+                productRequestDto.getCategory(),
+                productRequestDto.getPrice()
+        );
+    }
 }
 
 
