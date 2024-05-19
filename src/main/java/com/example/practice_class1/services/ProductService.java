@@ -5,13 +5,14 @@ import com.example.practice_class1.Dtos.ProductResponseDto;
 import com.example.practice_class1.Model.Product;
 
 public interface ProductService {
-    public ProductResponseDto getSingleProduct(int productId);
-    public ProductResponseDto addProduct(
+    public Product getSingleProduct(int productId);
+    public Product addProduct(
             String title,
             String description,
             String image,
             String category,
             double price);
+
 }
 
 

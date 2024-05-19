@@ -1,5 +1,7 @@
 package com.example.practice_class1.Dtos;
 
+import com.example.practice_class1.Model.Category;
+import com.example.practice_class1.Model.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,15 +15,19 @@ public class FakeStoreDto {
     private String image;
     private String category;
 
-    public ProductResponseDto toProductResponseDto() {
-        ProductResponseDto productResponseDto = new ProductResponseDto();
-        productResponseDto.setId(id);
-        productResponseDto.setTitle(title);
-        productResponseDto.setDescription(description);
-        productResponseDto.setPrice(price);
-        productResponseDto.setImage(image);
-        productResponseDto.setCategory(category);
-        return productResponseDto;
+    public Product toProduct() {
+        Product product = new Product();
+        product.setId(id);
+        product.setTitle(title);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setImage(image);
+//        product.setCategory(category);
+        Category categoryObj=new Category();
+        categoryObj.setTitle(category);
+        product.setCategory(categoryObj);
+        return product;
+
     }
 
 

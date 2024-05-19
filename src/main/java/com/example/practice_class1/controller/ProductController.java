@@ -4,32 +4,50 @@ import com.example.practice_class1.Dtos.ProductRequestDto;
 import com.example.practice_class1.Dtos.ProductResponseDto;
 import com.example.practice_class1.Model.Product;
 import com.example.practice_class1.services.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ProductController {
     private ProductService productService;
+    private ModelMapper modelMapper;
     //to inject this use constructor
-    public ProductController(ProductService productService)
+    public ProductController(ProductService productService,ModelMapper modelMapper)
     {
         this.productService=productService;
+        this.modelMapper=modelMapper;
     }
     @GetMapping("/products/{id}")//to tell this is special class
     public ProductResponseDto getProductDetails(@PathVariable ("id") int productId)
     {
-         return productService.getSingleProduct(productId);
+         Product product= productService.getSingleProduct(productId);
+//         return modelMapper.map(product,ProductResponseDto.class);
+        return convertToProductResponseDto(product);
     }
 
+
     @PostMapping("/products")
-    public ProductResponseDto createProduct(@RequestBody ProductRequestDto productRequestDto)
+    //we need to send Dto back convert return type to ProductResponseDto
+    public ProductResponseDto createnewProduct(@RequestBody ProductRequestDto productRequestDto)
     {
-        return productService.addProduct(
+        Product product= productService.addProduct(
                 productRequestDto.getTitle(),
                 productRequestDto.getDescription(),
                 productRequestDto.getImage(),
                 productRequestDto.getCategory(),
                 productRequestDto.getPrice()
         );
+        return convertToProductResponseDto(product);
+
+
+    }
+    private ProductResponseDto convertToProductResponseDto(Product product)
+    {
+        String categoryTitle=product.getCategory().getTitle();
+        ProductResponseDto productResponseDto=modelMapper.map(product,ProductResponseDto.class);
+        productResponseDto.setCategory(categoryTitle);
+        return productResponseDto;
+
     }
 }
 

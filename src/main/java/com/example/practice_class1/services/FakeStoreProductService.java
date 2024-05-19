@@ -16,16 +16,16 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public ProductResponseDto getSingleProduct(int productId) {
+    public Product getSingleProduct(int productId) {
         FakeStoreDto fakeStoreDto = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + productId, FakeStoreDto.class
 
         );
-        return fakeStoreDto.toProductResponseDto();
+        return fakeStoreDto.toProduct();
     }
 
     @Override
-    public ProductResponseDto addProduct(
+    public Product addProduct(
         String title,
         String description,
         String image,
@@ -42,7 +42,8 @@ public class FakeStoreProductService implements ProductService {
                 fakeStoreDto,
                 FakeStoreDto.class
         );
-        return response.toProductResponseDto();
+        return response.toProduct();
+
     }
 
 }
