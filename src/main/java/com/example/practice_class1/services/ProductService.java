@@ -4,14 +4,18 @@ import com.example.practice_class1.Dtos.FakeStoreDto;
 import com.example.practice_class1.Dtos.ProductResponseDto;
 import com.example.practice_class1.Model.Product;
 
+import java.util.List;
+
 public interface ProductService {
     public Product getSingleProduct(int productId);
+    public List<Product> getAllProducts();
     public Product addProduct(
             String title,
             String description,
             String image,
             String category,
             double price);
+
 
 }
 

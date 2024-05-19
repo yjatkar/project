@@ -7,6 +7,9 @@ import com.example.practice_class1.services.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class ProductController {
     private ProductService productService;
@@ -24,7 +27,17 @@ public class ProductController {
 //         return modelMapper.map(product,ProductResponseDto.class);
         return convertToProductResponseDto(product);
     }
-
+    //get all products
+    @GetMapping("/products")
+    public List<ProductResponseDto> getAllProducts(){
+        List<Product> products=productService.getAllProducts();
+        List<ProductResponseDto> productResponseDtos=new ArrayList<>();
+        for(Product product:products)
+        {
+            productResponseDtos.add(convertToProductResponseDto(product));
+        }
+        return productResponseDtos;
+    }
 
     @PostMapping("/products")
     //we need to send Dto back convert return type to ProductResponseDto
@@ -41,6 +54,7 @@ public class ProductController {
 
 
     }
+
     private ProductResponseDto convertToProductResponseDto(Product product)
     {
         String categoryTitle=product.getCategory().getTitle();
