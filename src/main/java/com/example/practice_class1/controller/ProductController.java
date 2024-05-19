@@ -7,6 +7,8 @@ import com.example.practice_class1.Model.Product;
 import com.example.practice_class1.exception.ProductNotFoundException;
 import com.example.practice_class1.services.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -67,11 +69,11 @@ public class ProductController {
     }
     //Add Exception Handler
     @ExceptionHandler(ProductNotFoundException.class)
-    public  ErrorDto handleProductNotFoundException(ProductNotFoundException productNotFoundException)
+    public  ResponseEntity<ErrorDto> handleProductNotFoundException(ProductNotFoundException productNotFoundException)
     {
         ErrorDto errorDto=new ErrorDto();
         errorDto.setMessage(productNotFoundException.getMessage());
-        return errorDto;
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
 
     }
 }
