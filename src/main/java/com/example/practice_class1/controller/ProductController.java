@@ -43,9 +43,10 @@ public class ProductController {
         return productResponseDtos;
     }
 
+    //if we create object we want response code =201
     @PostMapping("/products")
     //we need to send Dto back convert return type to ProductResponseDto
-    public ProductResponseDto createnewProduct(@RequestBody ProductRequestDto productRequestDto)
+    public ResponseEntity<ProductResponseDto> createnewProduct(@RequestBody ProductRequestDto productRequestDto)
     {
         Product product= productService.addProduct(
                 productRequestDto.getTitle(),
@@ -54,7 +55,9 @@ public class ProductController {
                 productRequestDto.getCategory(),
                 productRequestDto.getPrice()
         );
-        return convertToProductResponseDto(product);
+//        return convertToProductResponseDto(product);
+        ProductResponseDto productResponseDto= convertToProductResponseDto(product);
+        return new ResponseEntity<>(productResponseDto,HttpStatus.CREATED);
 
 
     }
@@ -65,7 +68,7 @@ public class ProductController {
         ProductResponseDto productResponseDto=modelMapper.map(product,ProductResponseDto.class);
         productResponseDto.setCategory(categoryTitle);
         return productResponseDto;
-
+// now we get status code=201 (earlier getting 200)
     }
     //Add Exception Handler
     @ExceptionHandler(ProductNotFoundException.class)
