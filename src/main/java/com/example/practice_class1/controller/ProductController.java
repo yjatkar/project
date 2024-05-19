@@ -1,8 +1,10 @@
 package com.example.practice_class1.controller;
 
+import com.example.practice_class1.Dtos.ErrorDto;
 import com.example.practice_class1.Dtos.ProductRequestDto;
 import com.example.practice_class1.Dtos.ProductResponseDto;
 import com.example.practice_class1.Model.Product;
+import com.example.practice_class1.exception.ProductNotFoundException;
 import com.example.practice_class1.services.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +24,9 @@ public class ProductController {
     }
     @GetMapping("/products/{id}")//to tell this is special class
     public ProductResponseDto getProductDetails(@PathVariable ("id") int productId)
+            throws ProductNotFoundException
     {
          Product product= productService.getSingleProduct(productId);
-//         return modelMapper.map(product,ProductResponseDto.class);
         return convertToProductResponseDto(product);
     }
     //get all products
@@ -61,6 +63,15 @@ public class ProductController {
         ProductResponseDto productResponseDto=modelMapper.map(product,ProductResponseDto.class);
         productResponseDto.setCategory(categoryTitle);
         return productResponseDto;
+
+    }
+    //Add Exception Handler
+    @ExceptionHandler(ProductNotFoundException.class)
+    public  ErrorDto handleProductNotFoundException(ProductNotFoundException productNotFoundException)
+    {
+        ErrorDto errorDto=new ErrorDto();
+        errorDto.setMessage(productNotFoundException.getMessage());
+        return errorDto;
 
     }
 }

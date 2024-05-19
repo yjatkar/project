@@ -3,11 +3,12 @@ package com.example.practice_class1.services;
 import com.example.practice_class1.Dtos.FakeStoreDto;
 import com.example.practice_class1.Dtos.ProductResponseDto;
 import com.example.practice_class1.Model.Product;
+import com.example.practice_class1.exception.ProductNotFoundException;
 
 import java.util.List;
 
 public interface ProductService {
-    public Product getSingleProduct(int productId);
+    public Product getSingleProduct(int productId) throws ProductNotFoundException;
     public List<Product> getAllProducts();
     public Product addProduct(
             String title,
