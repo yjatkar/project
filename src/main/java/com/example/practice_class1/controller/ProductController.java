@@ -70,16 +70,24 @@ public class ProductController {
         return productResponseDto;
 // now we get status code=201 (earlier getting 200)
     }
-    //Add Exception Handler
-    @ExceptionHandler(ProductNotFoundException.class)
-    public  ResponseEntity<ErrorDto> handleProductNotFoundException(ProductNotFoundException productNotFoundException)
-    {
-        ErrorDto errorDto=new ErrorDto();
-        errorDto.setMessage(productNotFoundException.getMessage());
-        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
-
-    }
+//    //Add Exception Handler
+//    @ExceptionHandler(ProductNotFoundException.class)
+//    public  ResponseEntity<ErrorDto> handleProductNotFoundException(ProductNotFoundException productNotFoundException)
+//    {
+//        ErrorDto errorDto=new ErrorDto();
+//        errorDto.setMessage(productNotFoundException.getMessage());
+//        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+//
+//    }
 }
+
+
+
+
+
+
+
+
 
 
 
