@@ -7,6 +7,7 @@ import com.example.practice_class1.Model.Product;
 import com.example.practice_class1.exception.ProductNotFoundException;
 import com.example.practice_class1.services.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ProductController {
     private ProductService productService;
     private ModelMapper modelMapper;
     //to inject this use constructor
-    public ProductController(ProductService productService,ModelMapper modelMapper)
+    public ProductController(@Qualifier("selfProductService")ProductService productService, ModelMapper modelMapper)
     {
         this.productService=productService;
         this.modelMapper=modelMapper;
