@@ -8,7 +8,7 @@ import com.example.practice_class1.exception.ProductNotFoundException;
 import java.util.List;
 
 public interface ProductService {
-    public Product getSingleProduct(int productId) throws ProductNotFoundException;
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException;
     public List<Product> getAllProducts();
     public Product addProduct(
             String title,
@@ -16,6 +16,7 @@ public interface ProductService {
             String image,
             String category,
             double price);
+    public Product deleteProduct(Long productId) throws ProductNotFoundException;
 
 
 }

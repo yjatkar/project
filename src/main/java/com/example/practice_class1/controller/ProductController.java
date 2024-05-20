@@ -25,7 +25,7 @@ public class ProductController {
         this.modelMapper=modelMapper;
     }
     @GetMapping("/products/{id}")//to tell this is special class
-    public ProductResponseDto getProductDetails(@PathVariable ("id") int productId)
+    public ProductResponseDto getProductDetails(@PathVariable ("id") Long productId)
             throws ProductNotFoundException
     {
          Product product= productService.getSingleProduct(productId);
@@ -62,23 +62,21 @@ public class ProductController {
 
     }
 
-    private ProductResponseDto convertToProductResponseDto(Product product)
-    {
-        String categoryTitle=product.getCategory().getTitle();
-        ProductResponseDto productResponseDto=modelMapper.map(product,ProductResponseDto.class);
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<ProductResponseDto> deleteProduct(@PathVariable("id") Long productId)
+    throws ProductNotFoundException{
+        Product product=productService.deleteProduct(productId);
+        ProductResponseDto productResponseDto=convertToProductResponseDto(product);
+        return new ResponseEntity<>(productResponseDto,HttpStatus.OK);
+    }
+
+
+    private ProductResponseDto convertToProductResponseDto(Product product) {
+        String categoryTitle = product.getCategory().getTitle();
+        ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
         productResponseDto.setCategory(categoryTitle);
         return productResponseDto;
-// now we get status code=201 (earlier getting 200)
     }
-//    //Add Exception Handler
-//    @ExceptionHandler(ProductNotFoundException.class)
-//    public  ResponseEntity<ErrorDto> handleProductNotFoundException(ProductNotFoundException productNotFoundException)
-//    {
-//        ErrorDto errorDto=new ErrorDto();
-//        errorDto.setMessage(productNotFoundException.getMessage());
-//        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
-//
-//    }
 }
 
 

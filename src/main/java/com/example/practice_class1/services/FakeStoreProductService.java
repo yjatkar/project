@@ -4,6 +4,7 @@ import com.example.practice_class1.Dtos.FakeStoreDto;
 import com.example.practice_class1.Dtos.ProductResponseDto;
 import com.example.practice_class1.Model.Product;
 import com.example.practice_class1.exception.ProductNotFoundException;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,7 +21,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(int productId) throws ProductNotFoundException{
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException{
         FakeStoreDto fakeStoreDto = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + productId, FakeStoreDto.class
 
@@ -71,6 +72,23 @@ public class FakeStoreProductService implements ProductService {
         );
         return response.toProduct();
 
+    }
+    public Product deleteProduct(Long productId) throws ProductNotFoundException{
+        FakeStoreDto fakeStoreDto=restTemplate.exchange(
+                "https://fakestoreapi.com/products/" + productId,
+                HttpMethod.DELETE,
+                null,
+                FakeStoreDto.class
+        ).getBody();
+
+        if(fakeStoreDto==null)
+        {
+            throw new ProductNotFoundException(
+                    "Product with id "+ productId +" not found "
+                +"try to delete a product with id less than 21"
+        );
+        }
+        return fakeStoreDto.toProduct();
     }
 
 }
