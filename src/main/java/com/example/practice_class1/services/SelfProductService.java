@@ -123,5 +123,31 @@ public class SelfProductService implements ProductService{
     @Override//put
     public Product replaceProduct(Long productId, String title, String Description, String image, String category, Double price) throws ProductNotFoundException {
         return null;
+//        Product productInDb=productRepository.findByIdIs(productId);
+//        if(productInDb==null)
+//        {
+//            throw new ProductNotFoundException(
+//                    "product with id "+productId+" not found"
+//            );
+//        }
+//        productInDb.setTitle(title);
+//        productInDb.setDescription(Description);
+//        productInDb.setImage(image);
+//        productInDb.setPrice(price);
+//        if(category!=null)
+//        {
+//            Category categoryfromDb=categoryRepository.findByTitle(category);
+//            if(categoryfromDb==null)
+//            {
+//                Category newCategory=new Category();
+//                newCategory.setTitle(category);
+//                categoryfromDb=newCategory;
+//            }
+//            productInDb.setCategory(categoryfromDb);
+//
+//        }
+//
+//        return productRepository.save(productInDb);
+
     }
 }

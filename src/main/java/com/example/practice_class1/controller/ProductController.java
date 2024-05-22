@@ -32,6 +32,8 @@ public class ProductController {
          Product product= productService.getSingleProduct(productId);
         return convertToProductResponseDto(product);
     }
+
+
     //get all products
     @GetMapping("/products")
     public List<ProductResponseDto> getAllProducts(){
