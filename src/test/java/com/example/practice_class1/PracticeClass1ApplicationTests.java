@@ -1,15 +1,18 @@
 package com.example.practice_class1;
 
+import com.example.practice_class1.Model.Category;
 import com.example.practice_class1.Model.Product;
 import com.example.practice_class1.repository.CategoryRepository;
 import com.example.practice_class1.repository.ProductRepository;
 import com.example.practice_class1.repository.projections.ProductProjection;
 import com.example.practice_class1.repository.projections.ProductWithIdAndTitle;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class PracticeClass1ApplicationTests {
@@ -115,4 +118,42 @@ void TestNativeSqll(){
         System.out.println(product2.getId());
     }
 
+
+
+//    ------------------------------------------------------------------------------
+    @Test
+    @Transactional
+
+    void fetchTestMode()
+    {
+        Optional<Category> category=categoryRepository.findById(4L);
+        if(category.isPresent())
+        {
+            System.out.println(category.get().getTitle());
+            List<Product>products=category.get().getProducts();
+            for(Product  product:products)
+            {
+                System.out.println(product.getTitle()+" "+product.getDescription()+" "+product.getPrice());
+            }
+        }
+    }
+
+//    --------------------------(N+1) problem---------------------
+    @Test
+    @Transactional  //as we are using lazy loading we need to set this as one transaction
+    void testFetchMode()
+    {
+        List<Category> categories=categoryRepository.findByTitleEndingWith("electronics");
+        for(Category category:categories)
+        {
+            System.out.println(category.getTitle());
+            List<Product> products=category.getProducts();
+            for(Product product :products)
+            {
+                System.out.println(product.getTitle());
+            }
+        }
+
+
+    }
 }
